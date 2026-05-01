@@ -308,7 +308,6 @@ export default function SeekTheWord() {
         <div className="stw-footer stw-ui">
           <HeartSVG color={GOLD}/>
           <div className="stw-footer-line">This site is made possible by your generosity.</div>
-          <div className="stw-footer-link" style={{color:GOLD}}>Consider supporting the ministry</div>
           <div className="stw-domain" style={{color:GOLD}}>seektheword.com</div>
         </div>
       </div>
