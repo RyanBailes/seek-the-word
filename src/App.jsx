@@ -342,7 +342,6 @@ const MoonSVG  = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="non
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function SeekTheWord() {
   const [now, setNow]         = useState(new Date());
-  const [dimmed, setDimmed]   = useState(false);
   const [verseIn, setVerseIn] = useState(true);
   const [bgIn, setBgIn]       = useState(true);
   const [copied, setCopied]   = useState(false);
@@ -390,9 +389,6 @@ export default function SeekTheWord() {
         .stw-vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 100% 85% at 50% 42%,transparent 20%,rgba(0,0,0,0.5) 100%),linear-gradient(to bottom,rgba(0,0,0,0.2) 0%,transparent 18%,transparent 60%,rgba(0,0,0,0.55) 100%);}
         .stw-shell{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
         .stw-topbar{width:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 28px 0;}
-        .stw-controls{display:flex;align-items:center;gap:14px;justify-content:flex-end;}
-        .stw-ctrl{background:none;border:none;cursor:pointer;color:rgba(220,205,170,0.7);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;display:flex;align-items:center;gap:5px;transition:color 0.2s;padding:2px;}
-        .stw-ctrl:hover{color:#e8d8b0;}
         .stw-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:0 20px;}
         .stw-clock-row{display:flex;align-items:center;user-select:none;animation:fadeUp 0.75s ease both;}
         .stw-digit{font-size:clamp(52px,9vw,110px);color:#f4ebda;letter-spacing:-0.015em;text-shadow:0 4px 60px rgba(0,0,0,0.4);line-height:1;}
@@ -409,21 +405,17 @@ export default function SeekTheWord() {
         .stw-btn:hover{background:rgba(200,160,60,0.15);border-color:rgba(200,160,60,0.65);color:#f0e0aa;}
         .stw-footer{width:100%;text-align:center;padding:16px 24px 22px;display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeUp 0.75s 0.3s ease both;}
         .stw-footer-line{font-size:8.5px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(212,196,160,0.45);font-weight:500;}
-        .stw-footer-link{font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-weight:600;transition:color 0.2s;}
         .stw-domain{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.35;margin-top:2px;}
       `}</style>
 
-      <div className="stw-bg" style={{backgroundImage:`url("${bgUrl}")`,opacity:bgIn?1:0,filter:dimmed?"brightness(0.45)":"brightness(1)"}}/>
+      <div className="stw-bg" style={{backgroundImage:`url("${bgUrl}")`,opacity:bgIn?1:0}}/>
       <div className="stw-vignette"/>
 
       <div className="stw-shell">
         <div className="stw-topbar stw-ui">
           <div/>
           <STWLogo size={78} gold={GOLD}/>
-          <div className="stw-controls">
-            <button className="stw-ctrl stw-ui">KJV <span style={{fontSize:"8px",opacity:0.55}}>▾</span></button>
-            <button className="stw-ctrl stw-ui" onClick={()=>setDimmed(d=>!d)}>{dimmed?<SunSVG/>:<MoonSVG/>}</button>
-          </div>
+          <div/>
         </div>
 
         <div className="stw-main">
@@ -461,7 +453,6 @@ export default function SeekTheWord() {
         <div className="stw-footer stw-ui">
           <HeartSVG color={GOLD}/>
           <div className="stw-footer-line">This site is made possible by your generosity.</div>
-          <div className="stw-footer-link" style={{color:GOLD}}>Consider supporting the ministry</div>
           <div className="stw-domain" style={{color:GOLD}}>seektheword.com</div>
         </div>
       </div>
