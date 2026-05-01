@@ -153,11 +153,164 @@ const PALETTES = [
 ];
 
 // ─── SVG patterns ─────────────────────────────────────────────────────────────
-function makeRays(rand,pal,W,H){const cx=W*(0.3+rand()*0.4),cy=H*(0.2+rand()*0.3);let r="";const n=18+~~(rand()*14);for(let i=0;i<n;i++){const a=(i/n)*Math.PI*2,sp=(rand()-0.5)*0.18,len=Math.min(W,H)*(0.6+rand()*0.8);r+=`<polygon points="${cx},${cy} ${cx+Math.cos(a-sp)*len},${cy+Math.sin(a-sp)*len} ${cx+Math.cos(a+sp)*len},${cy+Math.sin(a+sp)*len}" fill="${pal.glow}" opacity="${(0.04+rand()*0.07).toFixed(3)}"/>`;} return `<rect width="${W}" height="${H}" fill="${pal.bg}"/><radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="60%"><stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.28"/><stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/></radialGradient>${r}<ellipse cx="${cx}" cy="${cy}" rx="${Math.min(W,H)*0.28}" ry="${Math.min(W,H)*0.2}" fill="url(#rg)"/>`;}
-function makeConcentric(rand,pal,W,H){const cx=W*(0.2+rand()*0.6),cy=H*(0.15+rand()*0.45),n=12+~~(rand()*10),maxR=Math.sqrt(W*W+H*H)*0.55;let r="";for(let i=1;i<=n;i++){const ri=(i/n)*maxR;r+=`<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${(ri*(0.7+rand()*0.6)).toFixed(1)}" ry="${(ri*(0.5+rand()*0.5)).toFixed(1)}" fill="none" stroke="${pal.accent}" stroke-width="${(0.4+rand()*1.2).toFixed(2)}" opacity="${((0.03+rand()*0.06)*(1-i/n*0.5)).toFixed(3)}"/>`;} return `<rect width="${W}" height="${H}" fill="${pal.bg}"/><radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="65%"><stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.3"/><stop offset="60%" stop-color="${pal.mid}" stop-opacity="0.1"/><stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/></radialGradient><rect width="${W}" height="${H}" fill="url(#rg)"/>${r}`;}
-function makeStarfield(rand,pal,W,H){let s="";for(let i=0;i<140+~~(rand()*80);i++){s+=`<circle cx="${(rand()*W).toFixed(1)}" cy="${(rand()*H).toFixed(1)}" r="${(0.5+rand()*1.8).toFixed(2)}" fill="${pal.gold}" opacity="${(0.2+rand()*0.65).toFixed(3)}"/>`;}for(let i=0;i<6;i++){const x=(rand()*W).toFixed(1),y=(rand()*H).toFixed(1),r=(2+rand()*3).toFixed(1);s+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${pal.gold}" opacity="0.4"/><circle cx="${x}" cy="${y}" r="${(parseFloat(r)*3).toFixed(1)}" fill="${pal.gold}" opacity="0.06"/>`;}const cx=W*(0.3+rand()*0.4),cy=H*(0.2+rand()*0.35);return `<rect width="${W}" height="${H}" fill="${pal.bg}"/><radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="60%"><stop offset="0%" stop-color="${pal.mid}" stop-opacity="1"/><stop offset="100%" stop-color="${pal.bg}" stop-opacity="1"/></radialGradient><rect width="${W}" height="${H}" fill="url(#rg)"/>${s}`;}
-function makeCrosswork(rand,pal,W,H){const n=8+~~(rand()*8);let l="";for(let i=0;i<n;i++){const y=(i/n)*H+rand()*(H/n);l+=`<line x1="0" y1="${y.toFixed(1)}" x2="${W}" y2="${(y+(rand()-0.5)*60).toFixed(1)}" stroke="${pal.accent}" stroke-width="${(0.5+rand()*1.5).toFixed(2)}" opacity="${(0.04+rand()*0.09).toFixed(3)}"/>`;}for(let i=0;i<n;i++){const x=(i/n)*W+rand()*(W/n);l+=`<line x1="${x.toFixed(1)}" y1="0" x2="${(x+(rand()-0.5)*80).toFixed(1)}" y2="${H}" stroke="${pal.mid}" stroke-width="${(0.5+rand()*1.2).toFixed(2)}" opacity="${(0.03+rand()*0.07).toFixed(3)}"/>`;}const cx=W*(0.2+rand()*0.6),cy=H*(0.2+rand()*0.4);return `<rect width="${W}" height="${H}" fill="${pal.bg}"/><radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="70%"><stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.22"/><stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/></radialGradient><rect width="${W}" height="${H}" fill="url(#rg)"/>${l}`;}
-function makeGeometric(rand,pal,W,H){let s="";for(let i=0;i<6;i++){const cx=(rand()*W).toFixed(1),cy=(rand()*H).toFixed(1),sz=(60+rand()*180).toFixed(1);s+=`<rect x="${(parseFloat(cx)-parseFloat(sz)/2).toFixed(1)}" y="${(parseFloat(cy)-parseFloat(sz)/2).toFixed(1)}" width="${sz}" height="${sz}" fill="none" stroke="${pal.accent}" stroke-width="1" opacity="${(0.04+rand()*0.08).toFixed(3)}" transform="rotate(${(rand()*60).toFixed(1)},${cx},${cy})"/>`;}const gx=4+~~(rand()*4),gy=3+~~(rand()*3);for(let i=0;i<=gx;i++)for(let j=0;j<=gy;j++){const x=(i/gx*W).toFixed(1),y=(j/gy*H).toFixed(1),op=(0.06+rand()*0.1).toFixed(3),sz=(4+rand()*6).toFixed(1);s+=`<line x1="${(parseFloat(x)-parseFloat(sz)).toFixed(1)}" y1="${y}" x2="${(parseFloat(x)+parseFloat(sz)).toFixed(1)}" y2="${y}" stroke="${pal.gold}" stroke-width="0.6" opacity="${op}"/><line x1="${x}" y1="${(parseFloat(y)-parseFloat(sz)).toFixed(1)}" x2="${x}" y2="${(parseFloat(y)+parseFloat(sz)).toFixed(1)}" stroke="${pal.gold}" stroke-width="0.6" opacity="${op}"/>`;}const gx2=(rand()*W).toFixed(1),gy2=(rand()*H*0.5).toFixed(1);return `<rect width="${W}" height="${H}" fill="${pal.bg}"/><radialGradient id="rg" cx="${(parseFloat(gx2)/W*100).toFixed(1)}%" cy="${(parseFloat(gy2)/H*100).toFixed(1)}%" r="55%"><stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.25"/><stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/></radialGradient><rect width="${W}" height="${H}" fill="url(#rg)"/>${s}`;}
+// ── 1. HOLY LIGHT: large cross beams radiating from a glowing centre ──────────
+function makeRays(rand,pal,W,H){
+  const cx=W*(0.35+rand()*0.3), cy=H*(0.2+rand()*0.28);
+  let rays="";
+  // 4 thick cardinal rays (cross beams) + many thin rays
+  const n=24+~~(rand()*12);
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const isCross=(i%(n/4)<2); // emphasise cardinal directions
+    const sp=isCross?0.22:(rand()-0.5)*0.12;
+    const len=Math.min(W,H)*(isCross?0.9:0.55+rand()*0.45);
+    const op=isCross?(0.09+rand()*0.07):(0.03+rand()*0.05);
+    rays+=`<polygon points="${cx.toFixed(1)},${cy.toFixed(1)} ${(cx+Math.cos(a-sp)*len).toFixed(1)},${(cy+Math.sin(a-sp)*len).toFixed(1)} ${(cx+Math.cos(a+sp)*len).toFixed(1)},${(cy+Math.sin(a+sp)*len).toFixed(1)}" fill="${pal.glow}" opacity="${op.toFixed(3)}"/>`;
+  }
+  // central glow orb
+  return `<rect width="${W}" height="${H}" fill="${pal.bg}"/>
+    <radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="55%">
+      <stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/>
+    </radialGradient>
+    ${rays}
+    <ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${Math.min(W,H)*0.18}" ry="${Math.min(W,H)*0.14}" fill="url(#rg)"/>`;
+}
+// ── 2. CROWN OF GLORY: concentric halos with thorn-spike accents ─────────────
+function makeConcentric(rand,pal,W,H){
+  const cx=W*(0.25+rand()*0.5), cy=H*(0.18+rand()*0.38);
+  const n=10+~~(rand()*8), maxR=Math.sqrt(W*W+H*H)*0.52;
+  let rings="", spikes="";
+  for(let i=1;i<=n;i++){
+    const r=(i/n)*maxR;
+    const op=((0.04+rand()*0.07)*(1-i/n*0.45)).toFixed(3);
+    const sw=(0.6+rand()*1.4).toFixed(2);
+    rings+=`<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${(r*(0.82+rand()*0.36)).toFixed(1)}" ry="${(r*(0.55+rand()*0.42)).toFixed(1)}" fill="none" stroke="${pal.accent}" stroke-width="${sw}" opacity="${op}"/>`;
+  }
+  // thorn spikes on the innermost ring
+  const r0=maxR*0.18;
+  for(let i=0;i<16;i++){
+    const a=(i/16)*Math.PI*2, slen=r0*(0.18+rand()*0.22);
+    const x1=(cx+Math.cos(a)*r0).toFixed(1), y1=(cy+Math.sin(a)*r0).toFixed(1);
+    const x2=(cx+Math.cos(a)*(r0+slen)).toFixed(1), y2=(cy+Math.sin(a)*(r0+slen)).toFixed(1);
+    spikes+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${pal.gold}" stroke-width="0.8" opacity="${(0.12+rand()*0.14).toFixed(3)}"/>`;
+  }
+  return `<rect width="${W}" height="${H}" fill="${pal.bg}"/>
+    <radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="62%">
+      <stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="${pal.mid}" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/>
+    </radialGradient>
+    <rect width="${W}" height="${H}" fill="url(#rg)"/>
+    ${rings}${spikes}`;
+}
+// ── 3. BETHLEHEM SKY: field of 8-pointed stars, one large guiding star ────────
+function makeStarfield(rand,pal,W,H){
+  // helper: draw one 8-pointed star centred at x,y with outer r1, inner r2
+  function star8(x,y,r1,r2,op,col){
+    let pts="";
+    for(let i=0;i<16;i++){
+      const a=(i/16)*Math.PI*2-(Math.PI/2);
+      const r=i%2===0?r1:r2;
+      pts+=`${(x+Math.cos(a)*r).toFixed(2)},${(y+Math.sin(a)*r).toFixed(2)} `;
+    }
+    return `<polygon points="${pts.trim()}" fill="${col}" opacity="${op.toFixed(3)}"/>`;
+  }
+  let s="";
+  // scattered small stars
+  const n=70+~~(rand()*50);
+  for(let i=0;i<n;i++){
+    const x=rand()*W, y=rand()*H;
+    const r1=1.2+rand()*2.8, r2=r1*0.38;
+    s+=star8(x,y,r1,r2,(0.15+rand()*0.55),pal.gold);
+  }
+  // a few medium stars
+  for(let i=0;i<8;i++){
+    const x=rand()*W, y=rand()*H;
+    const r1=4+rand()*5, r2=r1*0.38;
+    s+=star8(x,y,r1,r2,(0.2+rand()*0.3),pal.gold);
+    // soft halo
+    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r1*4).toFixed(1)}" fill="${pal.gold}" opacity="0.04"/>`;
+  }
+  // one large guiding star upper-centre
+  const sx=W*(0.35+rand()*0.3), sy=H*(0.1+rand()*0.2);
+  const sr=18+rand()*14;
+  s+=star8(sx,sy,sr,sr*0.35,0.55,pal.gold);
+  s+=`<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="${(sr*5).toFixed(1)}" fill="${pal.glow}" opacity="0.12"/>`;
+  s+=`<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="${(sr*10).toFixed(1)}" fill="${pal.glow}" opacity="0.05"/>`;
+  // long vertical ray from guiding star
+  s+=`<line x1="${sx.toFixed(1)}" y1="${(sy-sr*1.2).toFixed(1)}" x2="${sx.toFixed(1)}" y2="${H}" stroke="${pal.gold}" stroke-width="0.8" opacity="0.12"/>`;
+  const cx=W*0.5, cy=H*0.35;
+  return `<rect width="${W}" height="${H}" fill="${pal.bg}"/>
+    <radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="65%">
+      <stop offset="0%" stop-color="${pal.mid}" stop-opacity="1"/>
+      <stop offset="100%" stop-color="${pal.bg}" stop-opacity="1"/>
+    </radialGradient>
+    <rect width="${W}" height="${H}" fill="url(#rg)"/>
+    ${s}`;
+}
+// ── 4. JERUSALEM CROSS: repeating cross-and-quadrant grid ─────────────────────
+function makeCrosswork(rand,pal,W,H){
+  let s="";
+  const cols=4+~~(rand()*3), rows=3+~~(rand()*2);
+  const cellW=W/cols, cellH=H/rows;
+  const armW=0.14+rand()*0.1; // arm width as fraction of cell
+  for(let c=0;c<cols;c++){
+    for(let r=0;r<rows;r++){
+      const cx=c*cellW+cellW*0.5, cy=r*cellH+cellH*0.5;
+      const hw=cellW*armW, hh=cellH*armW;
+      const op=(0.04+rand()*0.08).toFixed(3);
+      // vertical arm
+      s+=`<rect x="${(cx-hw/2).toFixed(1)}" y="${(cy-cellH*0.45).toFixed(1)}" width="${hw.toFixed(1)}" height="${(cellH*0.9).toFixed(1)}" fill="${pal.accent}" opacity="${op}"/>`;
+      // horizontal arm
+      s+=`<rect x="${(cx-cellW*0.45).toFixed(1)}" y="${(cy-hh/2).toFixed(1)}" width="${(cellW*0.9).toFixed(1)}" height="${hh.toFixed(1)}" fill="${pal.accent}" opacity="${op}"/>`;
+      // four small squares in quadrants (Jerusalem cross detail)
+      const sq=Math.min(cellW,cellH)*0.12, off=Math.min(cellW,cellH)*0.28;
+      [[1,1],[-1,1],[1,-1],[-1,-1]].forEach(([dx,dy])=>{
+        s+=`<rect x="${(cx+dx*off-sq/2).toFixed(1)}" y="${(cy+dy*off-sq/2).toFixed(1)}" width="${sq.toFixed(1)}" height="${sq.toFixed(1)}" fill="${pal.gold}" opacity="${(parseFloat(op)*0.8).toFixed(3)}"/>`;
+      });
+    }
+  }
+  const glowX=W*(0.3+rand()*0.4), glowY=H*(0.2+rand()*0.35);
+  return `<rect width="${W}" height="${H}" fill="${pal.bg}"/>
+    <radialGradient id="rg" cx="${(glowX/W*100).toFixed(1)}%" cy="${(glowY/H*100).toFixed(1)}%" r="68%">
+      <stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/>
+    </radialGradient>
+    <rect width="${W}" height="${H}" fill="url(#rg)"/>
+    ${s}`;
+}
+// ── 5. CHI-RHO STARBURST: overlapping large X and P shapes with radiating lines
+function makeGeometric(rand,pal,W,H){
+  let s="";
+  const cx=W*(0.3+rand()*0.4), cy=H*(0.18+rand()*0.35);
+  const R=Math.min(W,H)*(0.28+rand()*0.18);
+  const sw=(2+rand()*3).toFixed(1);
+  const op1=(0.1+rand()*0.1).toFixed(3);
+  // Chi (X) — two diagonal strokes
+  s+=`<line x1="${(cx-R).toFixed(1)}" y1="${(cy-R*0.7).toFixed(1)}" x2="${(cx+R).toFixed(1)}" y2="${(cy+R*0.7).toFixed(1)}" stroke="${pal.accent}" stroke-width="${sw}" opacity="${op1}" stroke-linecap="round"/>`;
+  s+=`<line x1="${(cx+R).toFixed(1)}" y1="${(cy-R*0.7).toFixed(1)}" x2="${(cx-R).toFixed(1)}" y2="${(cy+R*0.7).toFixed(1)}" stroke="${pal.accent}" stroke-width="${sw}" opacity="${op1}" stroke-linecap="round"/>`;
+  // Rho (P) — vertical stroke + arc at top
+  s+=`<line x1="${cx.toFixed(1)}" y1="${(cy-R).toFixed(1)}" x2="${cx.toFixed(1)}" y2="${(cy+R).toFixed(1)}" stroke="${pal.accent}" stroke-width="${sw}" opacity="${op1}" stroke-linecap="round"/>`;
+  s+=`<path d="M${cx.toFixed(1)},${(cy-R).toFixed(1)} A${(R*0.45).toFixed(1)},${(R*0.45).toFixed(1)} 0 0 1 ${cx.toFixed(1)},${(cy-R*0.1).toFixed(1)}" fill="none" stroke="${pal.gold}" stroke-width="${sw}" opacity="${(parseFloat(op1)*1.3).toFixed(3)}" stroke-linecap="round"/>`;
+  // many radiating lines from centre
+  const rays=20+~~(rand()*12);
+  for(let i=0;i<rays;i++){
+    const a=(i/rays)*Math.PI*2;
+    const len=R*(1.4+rand()*1.2);
+    const rop=(0.025+rand()*0.045).toFixed(3);
+    s+=`<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${(cx+Math.cos(a)*len).toFixed(1)}" y2="${(cy+Math.sin(a)*len).toFixed(1)}" stroke="${pal.glow}" stroke-width="0.9" opacity="${rop}"/>`;
+  }
+  // soft central glow
+  s+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(R*0.55).toFixed(1)}" fill="${pal.glow}" opacity="0.1"/>`;
+  return `<rect width="${W}" height="${H}" fill="${pal.bg}"/>
+    <radialGradient id="rg" cx="${(cx/W*100).toFixed(1)}%" cy="${(cy/H*100).toFixed(1)}%" r="58%">
+      <stop offset="0%" stop-color="${pal.glow}" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="${pal.bg}" stop-opacity="0"/>
+    </radialGradient>
+    <rect width="${W}" height="${H}" fill="url(#rg)"/>
+    ${s}`;
+}
 
 const PATTERNS = [makeRays, makeConcentric, makeStarfield, makeCrosswork, makeGeometric];
 
@@ -224,59 +377,41 @@ export default function SeekTheWord() {
 
   return (
     <>
-<style>{`
-  ${FONT_CSS}
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;}
-  .stw-clock{font-family:'Klagin','Cormorant Garamond',Georgia,serif;font-weight:700;}
-  .stw-verse{font-family:'RetroDream','Cormorant Garamond',Georgia,serif;font-weight:400;}
-  .stw-ui{font-family:'Manrope',sans-serif;}
-
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes colonBlink{0%,49%{opacity:1}50%,100%{opacity:0.2}}
-
-  .stw-bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center 40%;transition:opacity 0.6s ease,filter 0.7s ease;}
-  .stw-vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 100% 85% at 50% 42%,transparent 20%,rgba(0,0,0,0.5) 100%),linear-gradient(to bottom,rgba(0,0,0,0.2) 0%,transparent 18%,transparent 60%,rgba(0,0,0,0.55) 100%);}
-  .stw-shell{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
-  .stw-topbar{width:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 28px 0;}
-  .stw-controls{display:flex;align-items:center;gap:14px;justify-content:flex-end;}
-  .stw-ctrl{background:none;border:none;cursor:pointer;color:rgba(220,205,170,0.7);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;display:flex;align-items:center;gap:5px;transition:color 0.2s;padding:2px;}
-  .stw-ctrl:hover{color:#e8d8b0;}
-
-  .stw-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:0 20px;}
-
-  .stw-clock-row{display:flex;align-items:center;user-select:none;animation:fadeUp 0.75s ease both;}
-  .stw-digit{font-size:clamp(78px,14.5vw,168px);color:#f4ebda;letter-spacing:-0.015em;text-shadow:0 4px 60px rgba(0,0,0,0.4);line-height:1;}
-  .stw-colon{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,1vw,12px);margin:0 clamp(8px,1.5vw,18px);padding-bottom:clamp(8px,1.7vw,18px);animation:colonBlink 1s step-end infinite;}
-  .stw-dot{border-radius:50%;width:clamp(7px,1vw,12px);height:clamp(7px,1vw,12px);box-shadow:0 0 10px rgba(200,160,60,0.5);}
-
-  .stw-orn{display:flex;align-items:center;gap:8px;margin:2px 0 18px;opacity:0.7;}
-  .stw-orn-line{height:1px;width:clamp(32px,6.5vw,78px);}
-  .stw-orn-dia{width:5px;height:5px;transform:rotate(45deg);}
-
-  .stw-verse-area{max-width:min(920px,90vw);text-align:center;transition:opacity 0.5s ease,transform 0.5s ease;animation:fadeUp 0.75s 0.12s ease both;}
-  .stw-ref{font-size:clamp(10px,1.3vw,12.5px);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:16px;font-weight:600;}
-  .stw-verse-body{font-size:clamp(30px,5vw,58px);line-height:1.45;color:#f2e9d8;text-shadow:0 1px 24px rgba(0,0,0,0.5);font-weight:400;}
-
-  .stw-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.75s 0.22s ease both;}
-  .stw-btn{background:rgba(0,0,0,0.25);border:1px solid rgba(200,160,60,0.3);color:rgba(220,205,170,0.85);padding:8px 17px;border-radius:3px;font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:7px;backdrop-filter:blur(6px);transition:all 0.2s;}
-  .stw-btn:hover{background:rgba(200,160,60,0.15);border-color:rgba(200,160,60,0.65);color:#f0e0aa;}
-
-  .stw-footer{width:100%;text-align:center;padding:16px 24px 22px;display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeUp 0.75s 0.3s ease both;}
-  .stw-footer-line{font-size:8.5px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(212,196,160,0.45);font-weight:500;}
-  .stw-footer-link{font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-weight:600;transition:color 0.2s;}
-  .stw-domain{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.35;margin-top:2px;}
-
-  @media(max-width:640px){
-    .stw-topbar{padding:14px 18px 0;}
-    .stw-main{padding:0 16px;}
-    .stw-digit{font-size:clamp(64px,22vw,108px);}
-    .stw-verse-area{max-width:94vw;}
-    .stw-verse-body{font-size:clamp(28px,8.5vw,42px);line-height:1.38;}
-    .stw-ref{font-size:10px;letter-spacing:0.24em;margin-bottom:12px;}
-    .stw-actions{margin-top:20px;}
-  }
-`}</style>
+      <style>{`
+        ${FONT_CSS}
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        html,body{height:100%;}
+        .stw-clock{font-family:'Klagin','Cormorant Garamond',Georgia,serif;font-weight:700;}
+        .stw-verse{font-family:'RetroDream','Cormorant Garamond',Georgia,serif;font-weight:400;}
+        .stw-ui{font-family:'Manrope',sans-serif;}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes colonBlink{0%,49%{opacity:1}50%,100%{opacity:0.2}}
+        .stw-bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center 40%;transition:opacity 0.6s ease,filter 0.7s ease;}
+        .stw-vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 100% 85% at 50% 42%,transparent 20%,rgba(0,0,0,0.5) 100%),linear-gradient(to bottom,rgba(0,0,0,0.2) 0%,transparent 18%,transparent 60%,rgba(0,0,0,0.55) 100%);}
+        .stw-shell{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+        .stw-topbar{width:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 28px 0;}
+        .stw-controls{display:flex;align-items:center;gap:14px;justify-content:flex-end;}
+        .stw-ctrl{background:none;border:none;cursor:pointer;color:rgba(220,205,170,0.7);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;display:flex;align-items:center;gap:5px;transition:color 0.2s;padding:2px;}
+        .stw-ctrl:hover{color:#e8d8b0;}
+        .stw-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:0 20px;}
+        .stw-clock-row{display:flex;align-items:center;user-select:none;animation:fadeUp 0.75s ease both;}
+        .stw-digit{font-size:clamp(52px,9vw,110px);color:#f4ebda;letter-spacing:-0.015em;text-shadow:0 4px 60px rgba(0,0,0,0.4);line-height:1;}
+        .stw-colon{display:flex;flex-direction:column;align-items:center;gap:clamp(4px,0.7vw,9px);margin:0 clamp(6px,1vw,13px);padding-bottom:clamp(6px,1.2vw,13px);animation:colonBlink 1s step-end infinite;}
+        .stw-dot{border-radius:50%;width:clamp(6px,0.8vw,9px);height:clamp(6px,0.8vw,9px);box-shadow:0 0 10px rgba(200,160,60,0.5);}
+        .stw-orn{display:flex;align-items:center;gap:8px;margin:4px 0 20px;opacity:0.7;}
+        .stw-orn-line{height:1px;width:clamp(32px,6.5vw,78px);}
+        .stw-orn-dia{width:5px;height:5px;transform:rotate(45deg);}
+        .stw-verse-area{max-width:min(860px,92vw);text-align:center;transition:opacity 0.5s ease,transform 0.5s ease;animation:fadeUp 0.75s 0.12s ease both;}
+        .stw-ref{font-size:clamp(10px,1.3vw,12.5px);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:18px;font-weight:600;}
+        .stw-verse-body{font-size:clamp(28px,5.2vw,62px);line-height:1.45;color:#f2e9d8;text-shadow:0 2px 32px rgba(0,0,0,0.6);font-weight:400;}
+        .stw-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.75s 0.22s ease both;}
+        .stw-btn{background:rgba(0,0,0,0.25);border:1px solid rgba(200,160,60,0.3);color:rgba(220,205,170,0.85);padding:8px 17px;border-radius:3px;font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:7px;backdrop-filter:blur(6px);transition:all 0.2s;}
+        .stw-btn:hover{background:rgba(200,160,60,0.15);border-color:rgba(200,160,60,0.65);color:#f0e0aa;}
+        .stw-footer{width:100%;text-align:center;padding:16px 24px 22px;display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeUp 0.75s 0.3s ease both;}
+        .stw-footer-line{font-size:8.5px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(212,196,160,0.45);font-weight:500;}
+        .stw-footer-link{font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-weight:600;transition:color 0.2s;}
+        .stw-domain{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.35;margin-top:2px;}
+      `}</style>
 
       <div className="stw-bg" style={{backgroundImage:`url("${bgUrl}")`,opacity:bgIn?1:0,filter:dimmed?"brightness(0.45)":"brightness(1)"}}/>
       <div className="stw-vignette"/>
@@ -326,6 +461,7 @@ export default function SeekTheWord() {
         <div className="stw-footer stw-ui">
           <HeartSVG color={GOLD}/>
           <div className="stw-footer-line">This site is made possible by your generosity.</div>
+          <div className="stw-footer-link" style={{color:GOLD}}>Consider supporting the ministry</div>
           <div className="stw-domain" style={{color:GOLD}}>seektheword.com</div>
         </div>
       </div>
